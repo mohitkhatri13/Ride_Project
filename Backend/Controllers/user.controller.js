@@ -12,6 +12,10 @@ if(!errors.isEmpty()){
 }
 
 const {fullname , email , password} = req.body;
+const ifuseralreadyexist = await userModel.findOne({email});
+if(ifuseralreadyexist){ 
+    return res.status(400).json({message:"User already exist"})
+}
 
 const hashPassword = await userModel.hashPassword(password);
  firstname = fullname.firstname

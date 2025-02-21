@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieparser = require('cookie-parser');
 const userRoutes = require("./Routes/user.routes")
+const captainRoutes = require("./Routes/captain.routes")
 
 
 
@@ -19,6 +20,7 @@ connectToDb();
 
 
 app.use('/users' , userRoutes)
+app.use('/captains' , captainRoutes)
 
 app.get("/" , (req , res)=>{
     res.send('hello brothers');
