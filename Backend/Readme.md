@@ -167,3 +167,64 @@ curl -X POST http://localhost:4000/users/login \
   }
 }
 ```
+
+# Get User Profile Endpoint
+
+## Endpoint
+`GET /users/profile`
+
+## Description
+This endpoint retrieves the current user's profile information.
+
+## Response
+### Success (200 OK)
+```json
+{
+  "success": true,
+  "data": {
+    "id": "string",
+    "name": "string",
+    "email": "string",
+    "phone": "string",
+    "role": "string",
+    "createdAt": "timestamp"
+  }
+}
+```
+### Error Responses
+#### 401 Unauthorized: If the user is not authenticated
+```json
+{
+  "message": "Unauthorized"
+}
+```
+#### 404 Not Found: If the user profile doesn't exist
+```json
+{
+  "message": "User profile not found"
+}
+```
+
+# Logout User Endpoint
+
+## Endpoint
+`GET /users/logout`
+
+## Description
+This endpoint logs out the currently authenticated user and invalidates their token.
+
+## Response
+### Success (200 OK)
+```json
+{
+  "success": true,
+  "message": "User logged out successfully"
+}
+```
+### Error Responses
+#### 401 Unauthorized: If the user is not authenticated
+```json
+{
+  "message": "Unauthorized"
+}
+```
