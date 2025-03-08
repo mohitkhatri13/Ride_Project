@@ -84,7 +84,7 @@ const CaptainSignup = () => {
           <p className="text-center text-lg">
             Already have an Account ?{" "}
             <NavLink to={"/captainlogin"} className={`text-lg text-blue-400`}>
-              Log in Here
+              Login
             </NavLink>{" "}
           </p>
         </div>

@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { use, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
+import {UserDataContext} from "../context/usercontext";
+
 
 const UserSignup = () => {
   const [email, setEmail] = useState("");
@@ -7,22 +10,37 @@ const UserSignup = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [userData, setUserData] = useState({});
+  const {user , setUser} = React.useContext(UserDataContext)
+  
+  const navigate= useNavigate();
 
-  const submithandler = (e) => {
+  const submithandler = async (e) => {
     e.preventDefault();
-    setUserData({
-      fullName:{
+    const newUser = {
+      fullname:{
         firstname: firstname,
         lastname: lastname,
       },
       email: email,
       password: password,
-    });
+    };
+
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+   
+    if(response.status ===201){
+        const data = response?.data;
+        setUser(data.user);
+        localStorage.setItem('token', data?.token);
+        navigate('/home');
+    }
+
     setFirstname("");
     setLastname("");
     setEmail("");
     setPassword("");
   };
+
+
 
   return (
     <div>
@@ -84,7 +102,7 @@ const UserSignup = () => {
           <p className="text-center text-lg">
             Already have an Account ?{" "}
             <NavLink to={"/userlogin"} className={`text-lg text-blue-400`}>
-              Log in Here
+              Login
             </NavLink>{" "}
           </p>
         </div>
