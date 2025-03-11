@@ -1,27 +1,65 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { CaptainDataContext } from "../context/CaptainContext2";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 const CaptainSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [captainData, setCaptainData] = useState({});
+const [vehicleColor, setVehicleColor] = useState("");
+const [vehiclePlate, setVehiclePlate] = useState("");
+const [vehicleCapacity, setVehicleCapacity] = useState("");
+const [vehicleType, setVehicleType] = useState("");
 
-  const submithandler = (e) => {
+const navigate= useNavigate();
+
+
+
+
+  const {captain , setCaptain}= React.useContext(CaptainDataContext)
+
+
+
+  const submithandler =async (e) => {
     e.preventDefault();
-    setCaptainData({
-      fullName: {
+    const captainData = {
+      fullname: {
         firstname: firstname,
         lastname: lastname,
       },
       email: email,
       password: password,
-    });
+      vehicle:{
+        color:vehicleColor,
+        plate:vehiclePlate,
+        capacity:vehicleCapacity,
+        vehicleType:vehicleType
+      }
+    };
+
+  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
+
+   if(response.status ===201){
+    const data= response?.data;
+    setCaptain(data.captain);
+    localStorage.setItem('token', data?.token);
+    navigate('/captain-home');
+   }
+
+
     setFirstname("");
     setLastname("");
     setEmail("");
     setPassword("");
+    setVehicleColor("");
+    setVehiclePlate("");
+    setVehicleCapacity("");
+    setVehicleType("");
+    setCaptain(captainData);
   };
 
   return (
@@ -77,8 +115,59 @@ const CaptainSignup = () => {
               }}
               placeholder="Password"
             />
+
+            <h3 className="text-lg font-medium mb-2">Vehicle Color</h3>
+            <input
+              className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+              required
+              type="text"
+              value={vehicleColor}
+              onChange={(e) => {
+                setVehicleColor(e.target.value);
+              }}
+              placeholder="Vehicle Color"
+            />
+
+            <h3 className="text-lg font-medium mb-2">Vehicle Plate</h3>
+            <input
+              className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+              required
+              type="text"
+              value={vehiclePlate}
+              onChange={(e) => {
+                setVehiclePlate(e.target.value);
+              }}
+              placeholder="Vehicle Plate"
+            />
+
+            <h3 className="text-lg font-medium mb-2">Vehicle Capacity</h3>
+            <input
+              className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+              required
+              type="number"
+              value={vehicleCapacity}
+              onChange={(e) => {
+                setVehicleCapacity(e.target.value);
+              }}
+              placeholder="Vehicle Capacity"
+            />
+
+            <h3 className="text-lg font-medium mb-2">Vehicle Type</h3>
+            <select
+              className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
+              required
+              value={vehicleType}
+              onChange={(e) => {
+                setVehicleType(e.target.value);
+              }}
+            >
+              <option value="" disabled>Select Vehicle Type</option>
+              <option value="car">Car</option>
+              <option value="auto">Auto</option>
+              <option value="moto">Moto</option>
+            </select>
             <button className="bg-[#111] mb-5 mt-5 rounded px-4 py-2  w-full text-[#fff] font-semibold placeholder:text-base">
-              Login
+              Create Captain's Account
             </button>
           </form>
           <p className="text-center text-lg">
