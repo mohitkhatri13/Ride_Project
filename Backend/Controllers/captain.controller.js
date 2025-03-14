@@ -54,9 +54,7 @@ module.exports.loginCaptain = async(req , res , next)=>{
 }
 
 module.exports.captainProfile = async(req , res , next)=>{
-
     res.status(200).json(req.captain);
-
 }
 module.exports.captainlogout = async(req , res , next)=>{
     const token = req.cookies.token|| req.headers.authorization?.split(' ')[1]; 

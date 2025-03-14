@@ -20,6 +20,8 @@ if(isBlacklisted){
 try{
     const decoded = jwt.verify(token , process.env.JWT_SECRET);
     const user = await userModel.findById(decoded._id);
+    // we set the user data so that we can use it in return the user detail this can be done to increate security 
+    // similarly we do for captains
     req.user = user;
    return next();
 
