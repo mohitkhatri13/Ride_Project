@@ -24,15 +24,19 @@ const ConfirmRide = (props) => {
         <img className="h-40 mb-5 " src={carimage} alt="" />
         <div className="w-[90%] text-xl">
           <div className="w-full border-b-2 flex items-center px-5">
-          <div className="text-3xl"><RiUserLocationLine /></div>  
+            <div className="text-3xl">
+              <RiUserLocationLine />
+            </div>
             <div className="px-10 font-semibold py-4">
               <h3>562/11 A </h3>
               <p>House no 344 Shalimaar bagh New Delhi</p>
             </div>
           </div>
-          
+
           <div className="w-full  border-b-2 flex items-center px-5">
-          <div className="text-3xl"><IoLocationSharp /></div>  
+            <div className="text-3xl">
+              <IoLocationSharp />
+            </div>
             <div className="px-10 font-semibold py-4">
               <h3>562/11 A </h3>
               <p>House no 344 Shalimaar bagh New Delhi</p>
@@ -40,20 +44,23 @@ const ConfirmRide = (props) => {
           </div>
 
           <div className="w-full  flex items-center px-5">
-          <div className="text-3xl"><FaIndianRupeeSign /></div>
-            
+            <div className="text-3xl">
+              <FaIndianRupeeSign />
+            </div>
+
             <div className="px-10 font-semibold py-4">
               <h3>198</h3>
               <p>Cash</p>
             </div>
           </div>
         </div>
-        <button 
-        onClick={()=>{
+        <button
+          onClick={() => {
             props.setVehicleFound(true);
             props.setConfirmRidePanel(false);
-        }} 
-        className="w-[80%] hover:scale-95 my-10 py-2 h-15 bg-gray-300 rounded-lg text-xl  font-bold">
+          }}
+          className="w-[80%] hover:scale-95 my-10 py-2 h-15 bg-gray-300 rounded-lg text-xl  font-bold"
+        >
           Confirm
         </button>
       </div>

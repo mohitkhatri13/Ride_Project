@@ -4,27 +4,21 @@ import { CaptainDataContext } from "../context/CaptainContext2";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
 const CaptainSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-const [vehicleColor, setVehicleColor] = useState("");
-const [vehiclePlate, setVehiclePlate] = useState("");
-const [vehicleCapacity, setVehicleCapacity] = useState("");
-const [vehicleType, setVehicleType] = useState("");
+  const [vehicleColor, setVehicleColor] = useState("");
+  const [vehiclePlate, setVehiclePlate] = useState("");
+  const [vehicleCapacity, setVehicleCapacity] = useState("");
+  const [vehicleType, setVehicleType] = useState("");
 
-const navigate= useNavigate();
+  const navigate = useNavigate();
 
+  const { captain, setCaptain } = React.useContext(CaptainDataContext);
 
-
-
-  const {captain , setCaptain}= React.useContext(CaptainDataContext)
-
-
-
-  const submithandler =async (e) => {
+  const submithandler = async (e) => {
     e.preventDefault();
     const captainData = {
       fullname: {
@@ -33,23 +27,25 @@ const navigate= useNavigate();
       },
       email: email,
       password: password,
-      vehicle:{
-        color:vehicleColor,
-        plate:vehiclePlate,
-        capacity:vehicleCapacity,
-        vehicleType:vehicleType
-      }
+      vehicle: {
+        color: vehicleColor,
+        plate: vehiclePlate,
+        capacity: vehicleCapacity,
+        vehicleType: vehicleType,
+      },
     };
 
-  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, captainData)
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/captains/register`,
+      captainData
+    );
 
-   if(response.status ===201){
-    const data= response?.data;
-    setCaptain(data.captain);
-    localStorage.setItem('token', data?.token);
-    navigate('/captain-home');
-   }
-
+    if (response.status === 201) {
+      const data = response?.data;
+      setCaptain(data.captain);
+      localStorage.setItem("token", data?.token);
+      navigate("/captain-home");
+    }
 
     setFirstname("");
     setLastname("");
@@ -68,7 +64,9 @@ const navigate= useNavigate();
         <div>
           <h2 className="text-3xl font-bold mb-10 ">Airvata</h2>
           <form onSubmit={(e) => submithandler(e)}>
-            <h3 className="text-lg font-medium mb-2">What's out Captain's name</h3>
+            <h3 className="text-lg font-medium mb-2">
+              What's out Captain's name
+            </h3>
             <div className=" flex gap-x-4 mb-5">
               <input
                 className="bg-[#eeeeee]  w-1/2 rounded px-4 py-2 border  text-lg placeholder:text-base"
@@ -93,7 +91,9 @@ const navigate= useNavigate();
               ></input>
             </div>
 
-            <h3 className="text-lg font-medium mb-2">Whats our Captain's Email</h3>
+            <h3 className="text-lg font-medium mb-2">
+              Whats our Captain's Email
+            </h3>
             <input
               className="bg-[#eeeeee] mb-5 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
               required
@@ -161,7 +161,9 @@ const navigate= useNavigate();
                 setVehicleType(e.target.value);
               }}
             >
-              <option value="" disabled>Select Vehicle Type</option>
+              <option value="" disabled>
+                Select Vehicle Type
+              </option>
               <option value="car">Car</option>
               <option value="auto">Auto</option>
               <option value="moto">Moto</option>
