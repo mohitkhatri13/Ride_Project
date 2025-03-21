@@ -9,6 +9,10 @@ import ConfirmRide from "../Components/ConfirmRide";
 import VehiclePanel from "../Components/VehiclePanel";
 import LookingforDriver from "../Components/LookingforDriver";
 import WaitForDriver from "../Components/WaitForDriver";
+import axios from "axios";
+import { useContext } from 'react';
+import { UserDataContext } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [pickup, setpickup] = useState("");
@@ -18,9 +22,26 @@ const Home = () => {
   const [confirmRidePanel , setConfirmRidePanel] = useState(false);
   const [vehicleFound , setVehicleFound] = useState(false);
   const [waitingForDriver ,setWaitingFOrDriver ] = useState(false); 
+  const [suggestions, setSuggestions] = useState([]);
+  const [activeField, setActiveField] = useState("");
 
   const submithandler = (e) => {
     e.preventDefault();
+  };
+
+  const fetchSuggestions = async (e) => {
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,
+        { params: { input:e.target.value },
+      headers :{
+        Authorization: `Bearer ${location.getItem('token')}`
+      } }
+      );
+      setSuggestions(response.data);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+    }
   };
 
   const panelRef = useRef(null);
@@ -159,24 +180,28 @@ const Home = () => {
           >
             <div className="line absolute h-20 w-1 top-[50%] left-10 bg-gray-700 rounded-full"></div>
             <input
-              onClick={(e) => {
+              onClick={() => {
                 setPanelopen(true);
+                setActiveField("pickup");
               }}
               value={pickup}
               onChange={(e) => {
                 setpickup(e.target.value);
+                fetchSuggestions(e.target.value);
               }}
               className="bg-[#eee] px-12  py-4 text-lg rounded-lg w-full"
               type="text"
               placeholder="Add a pick up Location"
             ></input>
             <input
-              onClick={(e) => {
+              onClick={() => {
                 setPanelopen(true);
+                setActiveField("destination");
               }}
               value={destination}
               onChange={(e) => {
                 setDestination(e.target.value);
+                fetchSuggestions(e.target.value);
               }}
               className="bg-[#eee] px-12 py-4 text-lg rounded-lg w-full mt-5"
               type="text"
@@ -189,6 +214,10 @@ const Home = () => {
           <LocationSearchPanel
             setPanelopen={setPanelopen}
             setVehiclePanel={setVehiclePanel}
+            suggestions={suggestions}
+            activeField={activeField}
+            setPickup={setpickup}
+            setDestination={setDestination}
           />
         </div>
       </div>

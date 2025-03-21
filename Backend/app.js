@@ -4,8 +4,8 @@ const cors = require('cors');
 const cookieparser = require('cookie-parser');
 const userRoutes = require("./Routes/user.routes")
 const captainRoutes = require("./Routes/captain.routes")
-
-
+const mapRoutes = require("./Routes/mapRoutes")
+// const rideRoutes = require("./Routes/ride.routes")
 
 
 
@@ -21,6 +21,7 @@ connectToDb();
 
 app.use('/users' , userRoutes)
 app.use('/captains' , captainRoutes)
+app.use('/maps' ,mapRoutes)
 
 app.get("/" , (req , res)=>{
     res.send('hello brothers');
