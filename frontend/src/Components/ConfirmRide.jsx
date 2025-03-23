@@ -29,7 +29,7 @@ const ConfirmRide = (props) => {
             </div>
             <div className="px-10 font-semibold py-4">
               <h3>562/11 A </h3>
-              <p>House no 344 Shalimaar bagh New Delhi</p>
+              <p>{props.pickup}</p>
             </div>
           </div>
 
@@ -39,7 +39,7 @@ const ConfirmRide = (props) => {
             </div>
             <div className="px-10 font-semibold py-4">
               <h3>562/11 A </h3>
-              <p>House no 344 Shalimaar bagh New Delhi</p>
+              <p>{props.destination}</p>
             </div>
           </div>
 
@@ -49,7 +49,7 @@ const ConfirmRide = (props) => {
             </div>
 
             <div className="px-10 font-semibold py-4">
-              <h3>198</h3>
+              <h3>Rs {props.fare[props.vehicleType]}</h3>
               <p>Cash</p>
             </div>
           </div>
@@ -58,6 +58,7 @@ const ConfirmRide = (props) => {
           onClick={() => {
             props.setVehicleFound(true);
             props.setConfirmRidePanel(false);
+            props.createRide();
           }}
           className="w-[80%] hover:scale-95 my-10 py-2 h-15 bg-gray-300 rounded-lg text-xl  font-bold"
         >

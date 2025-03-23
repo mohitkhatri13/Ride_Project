@@ -1,38 +1,30 @@
-import React from "react";
-import { IoLocationSharp } from "react-icons/io5";
+import React from 'react'
 
-const LocationSearchPanel = ({
-  setPanelopen,
-  setVehiclePanel,
-  suggestions,
-  activeField,
-  setPickup,
-  setDestination,
-}) => {
-  return (
-    <div>
-      {suggestions.map((element, id) => (
-        <div
-          key={id}
-          onClick={() => {
-            if (activeField === "pickup") {
-              setPickup(element);
-            } else if (activeField === "destination") {
-              setDestination(element);
+const LocationSearchPanel = ({ suggestions, setVehiclePanel, setPanelOpen, setPickup, setDestination, activeField }) => {
+
+    const handleSuggestionClick = (suggestion) => {
+        if (activeField === 'pickup') {
+            setPickup(suggestion.description)
+        } else if (activeField === 'destination') {
+            setDestination(suggestion.description)
+        }
+        // setVehiclePanel(true)
+        // setPanelOpen(false)
+    }
+
+    return (
+        <div>
+            {/* Display fetched suggestions */}
+            {
+                suggestions.map((elem, idx) => (
+                    <div key={idx} onClick={() => handleSuggestionClick(elem)} className='flex gap-4 border-2 p-3 border-gray-50 active:border-black rounded-xl items-center my-2 justify-start'>
+                        <h2 className='bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full'><i className="ri-map-pin-fill"></i></h2>
+                        <h4 className='font-medium'>{elem.description}</h4>
+                    </div>
+                ))
             }
-            setVehiclePanel(true);
-            setPanelopen(false);
-          }}
-          className="flex p-3 border-2 rounded-xl border-gray-100 active:border-black items-center gap-x-4 justify-start my-2"
-        >
-          <h4 className="text-xl bg-[#eee] p-4 rounded-full">
-            <IoLocationSharp />
-          </h4>
-          <h4 className="text-xl">{element}</h4>
         </div>
-      ))}
-    </div>
-  );
-};
+    )
+}
 
-export default LocationSearchPanel;
+export default LocationSearchPanel
