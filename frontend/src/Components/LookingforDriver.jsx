@@ -26,8 +26,8 @@ const LookingforDriver = (props) => {
               <div className="w-full border-b-2 flex items-center px-5">
               <div className="text-3xl"><RiUserLocationLine /></div>  
                 <div className="px-10 font-semibold py-4">
-                  <h3>562/11 A </h3>
-                  <p>House no 344 Shalimaar bagh New Delhi</p>
+                  {/* <h3>562/11 A </h3> */}
+                  <p>{props.pickup}</p>
                 </div>
               </div>
               
@@ -35,7 +35,7 @@ const LookingforDriver = (props) => {
               <div className="text-3xl"><IoLocationSharp /></div>  
                 <div className="px-10 font-semibold py-4">
                   <h3>562/11 A </h3>
-                  <p>House no 344 Shalimaar bagh New Delhi</p>
+                  <p>{props.destination}</p>
                 </div>
               </div>
     
@@ -43,7 +43,7 @@ const LookingforDriver = (props) => {
               <div className="text-3xl"><FaIndianRupeeSign /></div>
                 
                 <div className="px-10 font-semibold py-4">
-                  <h3>198</h3>
+                  <h3>{props.fare[props.vehicleType]}</h3>
                   <p>Cash</p>
                 </div>
               </div>

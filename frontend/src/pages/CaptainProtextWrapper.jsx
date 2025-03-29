@@ -1,43 +1,51 @@
-import React from "react";
-import { useContext } from "react";
-import { useEffect, useState } from "react";
-import { CaptainDataContext } from "../context/CaptainContext2";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setCaptain } from "../Slice/captainslice";
 import axios from "axios";
 
-const CaptainProtextWrapper = ({ children }) => {
+const CaptainProtectWrapper = ({ children }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const { captain, setCaptain } = React.useContext(CaptainDataContext);
-  const [isloading, setIsloading] = useState(true);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!token) {
       navigate("/captainlogin");
+      return;
     }
-  }, [token]);
-  axios
-    .get(`${import.meta.env.VITE_API_URL}/captains/profile`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((response) => {
-      if (response.status === 200) {
-        setCaptain(response?.data?.captain);
-        setIsloading(false);
-      }
-    })
-    .catch((err) => {
-      localStorage.removeItem("token");
-      navigate("/captainlogin");
-    });
+    console.log("token", token);
+    const fetchCaptainProfile = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BASE_URL}/captains/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-  if (isloading) {
-    return <div>IsLoading</div>;
+        if (response.status === 200) {
+          dispatch(setCaptain(response.data));
+          console.log("profile", response);
+          setIsLoading(false);
+        }
+      } catch (err) {
+        localStorage.removeItem("token");
+        navigate("/captainlogin");
+      }
+    };
+
+    fetchCaptainProfile();
+  }, [token, dispatch, navigate]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 };
 
-export default CaptainProtextWrapper;
+export default CaptainProtectWrapper;

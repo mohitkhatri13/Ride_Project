@@ -10,8 +10,6 @@ import VehiclePanel from "../Components/VehiclePanel";
 import LookingforDriver from "../Components/LookingforDriver";
 import WaitForDriver from "../Components/WaitForDriver";
 import axios from "axios";
-import { useContext } from "react";
-import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -279,7 +277,7 @@ const Home = () => {
         className=" absolute bottom-0 translate-y-full  w-full bg-white"
       >
         <ConfirmRide
-        createRide={createRide}
+          createRide={createRide}
           setConfirmRidePanel={setConfirmRidePanel}
           setVehicleFound={setVehicleFound}
           pickup={pickup}
@@ -293,7 +291,13 @@ const Home = () => {
         ref={vehiclefoundref}
         className=" absolute bottom-0 translate-y-full  w-full bg-white"
       >
-        <LookingforDriver setVehicleFound={setVehicleFound} />
+        <LookingforDriver
+        pickup={pickup}
+        destination={destination}
+        createRide={createRide}
+        fare={fare}
+        vehicleType={vehicleType}
+         setVehicleFound={setVehicleFound} />
       </div>
 
       <div

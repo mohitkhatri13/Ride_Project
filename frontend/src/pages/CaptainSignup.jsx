@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { CaptainDataContext } from "../context/CaptainContext2";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { setCaptain } from "../Slice/captainslice";
 const CaptainSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,8 +16,7 @@ const CaptainSignup = () => {
 
   const navigate = useNavigate();
 
-  const { captain, setCaptain } = React.useContext(CaptainDataContext);
-
+  const dispatch = useDispatch();
   const submithandler = async (e) => {
     e.preventDefault();
     const captainData = {
@@ -42,7 +41,8 @@ const CaptainSignup = () => {
 
     if (response.status === 201) {
       const data = response?.data;
-      setCaptain(data.captain);
+      console.log("signupdata", data);
+      dispatch(setCaptain(data.captain));
       localStorage.setItem("token", data?.token);
       navigate("/captain-home");
     }

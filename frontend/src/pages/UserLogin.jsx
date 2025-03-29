@@ -1,15 +1,15 @@
 import React, { useState , useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { UserDataContext } from "../context/usercontext";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setUser } from "../Slice/userslice";
 import axios from "axios"
 
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({});
- const {user , setUser} = useContext(UserDataContext)
+   const dispatch = useDispatch();
  const navigate= useNavigate();
 
   const submithandler = async (e) => {
@@ -23,7 +23,7 @@ const UserLogin = () => {
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`, userData);
    if(response.status === 200){
      const data = response?.data;
-     setUser(data.user);
+      dispatch(setUser(data?.user));
      localStorage.setItem('token', data?.token);
      navigate('/home');
    }

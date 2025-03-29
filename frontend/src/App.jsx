@@ -28,7 +28,7 @@ const App = () => {
           element={
             <CaptainProtextWrapper>
               <CaptainHome />
-            </CaptainProtextWrapper>
+             </CaptainProtextWrapper>
           }
         ></Route>
         <Route
@@ -37,7 +37,7 @@ const App = () => {
             <UserProtectedRoute>
               {" "}
               <Home />
-            </UserProtectedRoute>
+             </UserProtectedRoute>
           }
         ></Route>
         <Route

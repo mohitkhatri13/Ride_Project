@@ -1,7 +1,8 @@
 import React, { use, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../Slice/userslice";
 import axios from "axios";
-import {UserDataContext} from "../context/usercontext";
 
 
 const UserSignup = () => {
@@ -9,8 +10,8 @@ const UserSignup = () => {
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [userData, setUserData] = useState({});
-  const {user , setUser} = React.useContext(UserDataContext)
+  const dispatch = useDispatch();
+
   
   const navigate= useNavigate();
 
@@ -29,8 +30,8 @@ const UserSignup = () => {
    
     if(response.status ===201){
         const data = response?.data;
-        setUser(data.user);
         localStorage.setItem('token', data?.token);
+        dispatch(setUser(data?.user));
         navigate('/home');
     }
 

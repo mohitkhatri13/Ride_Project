@@ -3,17 +3,16 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import {BrowserRouter} from 'react-router-dom'
-import UserContext from './context/usercontext.jsx'
-import CaptainContext from './context/CaptainContext2.jsx'
+import store from './Store.js'
+import { Provider } from "react-redux";
+
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <CaptainContext>
-        <UserContext>
+    <Provider store = {store}>
     <BrowserRouter>
     <App />
     </BrowserRouter>
-    </UserContext>
-    </CaptainContext>
-
+    </Provider>
   </StrictMode>,
 )
