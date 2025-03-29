@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import homeimage from "../assets/homeimage.jpg";
 import { useGSAP } from "@gsap/react";
 import { useRef } from "react";
@@ -10,8 +10,16 @@ import VehiclePanel from "../Components/VehiclePanel";
 import LookingforDriver from "../Components/LookingforDriver";
 import WaitForDriver from "../Components/WaitForDriver";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+// import SocketContext from "../context/socketcontext.jsx";
+import { useSelector } from "react-redux";
+import { useContext } from "react";
+// import { sendMessage } from "../Slice/socketSlice";
+import io from "socket.io-client";
+import { initializeSocket, sendMessage, receiveMessage } from "../Slice/socketSlice";
 
+const socket = io(import.meta.env.VITE_BASE_URL);
 const Home = () => {
   const [pickup, setpickup] = useState("");
   const [destination, setDestination] = useState("");
@@ -23,8 +31,27 @@ const Home = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [activeField, setActiveField] = useState("");
   const [fare, setFare] = useState({});
-  const [vehicleType , setVehicleType] = useState(null);
-  const[loading , setLoading] = useState(false);
+  const [vehicleType, setVehicleType] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const userId = useSelector((state) => state?.user?.user?._id);
+  useEffect(() => {
+    dispatch(initializeSocket());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (userId) {
+      console.log("userId:", userId);
+      dispatch(sendMessage("join", { userType: "user", userId }));
+    }
+  }, [userId, dispatch]);
+
+  // Example of receiving messages
+  useEffect(() => {
+    dispatch(receiveMessage("new-ride"));
+  }, [dispatch]);
 
   const submithandler = (e) => {
     e.preventDefault();
@@ -57,7 +84,7 @@ const Home = () => {
   async function findTrip() {
     setVehiclePanel(true);
     setPanelopen(false);
-      // setLoading(true);
+    // setLoading(true);
     const response = await axios.get(
       `${import.meta.env.VITE_BASE_URL}/rides/get-fare`,
       {
@@ -72,13 +99,18 @@ const Home = () => {
   }
 
   async function createRide() {
-     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/create`,
+      {
         pickup,
-      destination,
-      vehicleType,},{
-        headers:{Authorization: `Bearer ${localStorage.getItem("token")}`}
-      }  )
-      console.log("response", response.data);
+        destination,
+        vehicleType,
+      },
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
+    );
+    console.log("response", response.data);
   }
 
   useGSAP(
@@ -292,12 +324,13 @@ const Home = () => {
         className=" absolute bottom-0 translate-y-full  w-full bg-white"
       >
         <LookingforDriver
-        pickup={pickup}
-        destination={destination}
-        createRide={createRide}
-        fare={fare}
-        vehicleType={vehicleType}
-         setVehicleFound={setVehicleFound} />
+          pickup={pickup}
+          destination={destination}
+          createRide={createRide}
+          fare={fare}
+          vehicleType={vehicleType}
+          setVehicleFound={setVehicleFound}
+        />
       </div>
 
       <div

@@ -12,7 +12,15 @@ import UserProtectedRoute from "./pages/UserProtectedRoute";
 import CaptainProtextWrapper from "./pages/CaptainProtextWrapper";
 import Riding from "../src/pages/Riding.jsx"
 import CaptainRiding from "./pages/CaptainRiding.jsx";
+import { initializeSocket } from "./Slice/socketSlice.js";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log("initialization")
+    dispatch(initializeSocket()); 
+  }, [dispatch]);
   return (
     <div>
       <Routes>
