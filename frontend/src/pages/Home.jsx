@@ -17,7 +17,11 @@ import { useSelector } from "react-redux";
 import { useContext } from "react";
 // import { sendMessage } from "../Slice/socketSlice";
 import io from "socket.io-client";
-import { initializeSocket, sendMessage, receiveMessage } from "../Slice/socketSlice";
+import {
+  initializeSocket,
+  sendMessage,
+  receiveMessage,
+} from "../Slice/socketSlice";
 
 const socket = io(import.meta.env.VITE_BASE_URL);
 const Home = () => {

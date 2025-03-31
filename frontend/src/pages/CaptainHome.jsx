@@ -8,11 +8,66 @@ import { Link } from "react-router-dom";
 import CaptainDetails from "../Components/CaptainDetails";
 import RidePopUs from "../Components/RidePopUs";
 import ConfirmRidePopup from "../Components/ConfirmRidePopup";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import {
+  initializeSocket,
+  sendMessage,
+  receiveMessage,
+} from "../Slice/socketSlice";
 const CaptainHome = () => {
-  const [ridePopUpPanel, setRidePopUpPanel] = useState(true);
+  const [ridePopUpPanel, setRidePopUpPanel] = useState(false);
   const [confirmride, setConfirmRidepopup] = useState(false);
+  const[ride , setRide] = useState(null)
   const ridepopupref = useRef(null);
   const confirmridepopupref = useRef(null);
+
+  const dispatch = useDispatch();
+  const captainId = useSelector((state) => state.captain.captain._id);
+  console.log("capainId" , captainId)
+  useEffect(() => {
+    dispatch(initializeSocket());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (captainId) {
+      console.log("captainId:", captainId);
+      dispatch(sendMessage("join", { userType: "captain", captainId }));
+    }
+
+    const updateLocation = ()=>{
+      if(navigator.geolocation && captainId){
+        navigator.geolocation.getCurrentPosition((position) => {
+          const { latitude, longitude } = position.coords;
+          dispatch(
+            sendMessage("update-location-captain", {
+              captainId: captainId,
+              location: { ltd: latitude, lng: longitude },
+            })
+          );
+        });
+      }
+    }
+
+    
+    
+    const locationInterval = setInterval(updateLocation, 10000);
+    updateLocation();
+
+    return () => clearInterval(locationInterval);
+  }, [captainId, dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      receiveMessage("new-ride", (data) => {
+        console.log("New Ride Received:", data);
+        setRide(data); // Update state with new ride data
+        setRidePopUpPanel(true); // Show ride popup
+      })
+    );
+  }, [dispatch]);
+  
+
   useGSAP(
     function () {
       if (ridePopUpPanel) {
@@ -29,7 +84,7 @@ const CaptainHome = () => {
     },
     [ridePopUpPanel]
   );
- 
+
   useGSAP(
     function () {
       if (confirmride) {
@@ -46,6 +101,10 @@ const CaptainHome = () => {
     },
     [confirmride]
   );
+
+  async function confirmRide(){
+    
+  }
 
   return (
     <div className=" relative overflow-hidden  h-screen border  flex flex-col w-full items-center ">
@@ -73,14 +132,21 @@ const CaptainHome = () => {
         ref={ridepopupref}
         className=" absolute bottom-0 translate-y-full py-6 pt-12 w-full bg-white"
       >
-        <RidePopUs setRidePopUpPanel={setRidePopUpPanel} 
-        setConfirmRidepopup={setConfirmRidepopup}/>
+        <RidePopUs
+          setRidePopUpPanel={setRidePopUpPanel}
+          setConfirmRidepopup={setConfirmRidepopup}
+          ride={ride}
+          confirmride={confirmride}
+        />
       </div>
       <div
         ref={confirmridepopupref}
         className=" absolute bottom-0 translate-y-full py-6 pt-12 w-full bg-white"
       >
-        <ConfirmRidePopup setRidePopUpPanel={setRidePopUpPanel} setConfirmRidepopup={setConfirmRidepopup} />
+        <ConfirmRidePopup
+          setRidePopUpPanel={setRidePopUpPanel}
+          setConfirmRidepopup={setConfirmRidepopup}
+        />
       </div>
     </div>
   );

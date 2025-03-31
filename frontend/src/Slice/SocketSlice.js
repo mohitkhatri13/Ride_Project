@@ -64,13 +64,18 @@ export const sendMessage = (eventName, message) => () => {
   }
 };
 
-export const receiveMessage = (eventName) => (dispatch) => {
-    if (socket) {
-      socket.on(eventName, (message) => {
-        console.log(` Received (${eventName}):`, message);
-        dispatch(addMessage({ event: eventName, message }));
-      });
-    }
-  };
+export const receiveMessage = (eventName, callback) => (dispatch) => {
+  if (socket) {
+    socket.on(eventName, (message) => {
+      console.log(` Received (${eventName}):`, message);
+      dispatch(addMessage({ event: eventName, message }));
+
+      if (callback) {
+        callback(message); // Pass the received message to the callback
+      }
+    });
+  }
+};
+
 
 export default socketSlice.reducer;

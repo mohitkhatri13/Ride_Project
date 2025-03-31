@@ -24,7 +24,7 @@ const RidePopUs = (props) => {
         <div className="flex my-6 items-center justify-between w-[80%] bg-yellow-300 p-2 px-4 rounded-xl">
             <div className="flex gap-4 items-center ">
             <img className='h-20 w-20 rounded-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s" alt="" />
-            <h2 className="text-2xl font-medium ">Avneet Kaur</h2>
+            <h2 className="text-2xl font-medium ">{props?.ride?.user?.fullname?.firstname + " " + props?.ride?.user?.fullname?.lastname}</h2>
             </div>
         
         <h2 className="text-xl font-medium">2.2 km</h2>
@@ -38,7 +38,7 @@ const RidePopUs = (props) => {
             </div>
             <div className="px-10 font-semibold py-4">
               <h3>562/11 A </h3>
-              <p>House no 344 Shalimaar bagh New Delhi</p>
+              <p>{props?.ride?.pickup}</p>
             </div>
           </div>
 
@@ -48,7 +48,7 @@ const RidePopUs = (props) => {
             </div>
             <div className="px-10 font-semibold py-4">
               <h3>562/11 A </h3>
-              <p>House no 344 Shalimaar bagh New Delhi</p>
+              <p>{props?.ride?.destination}</p>
             </div>
           </div>
 
@@ -58,7 +58,7 @@ const RidePopUs = (props) => {
             </div>
 
             <div className="px-10 font-semibold py-4">
-              <h3>198</h3>
+              <h3>{props?.ride?.fare}</h3>
               <p>Cash</p>
             </div>
           </div>
@@ -73,6 +73,7 @@ const RidePopUs = (props) => {
         <button 
         onClick={()=>{
             props.setRidePopUpPanel(false);
+            props.confirmRide()
         }}
         
         className="w-[80%] hover:scale-95 mb-10 py-2 h-15 bg-gray-300 rounded-lg text-xl text-gray-700 font-bold">
