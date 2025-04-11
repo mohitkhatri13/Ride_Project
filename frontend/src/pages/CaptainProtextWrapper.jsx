@@ -5,7 +5,7 @@ import { setCaptain } from "../Slice/captainslice";
 import axios from "axios";
 
 const CaptainProtectWrapper = ({ children }) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("captaintoken");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);

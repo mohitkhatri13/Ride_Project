@@ -11,19 +11,15 @@ import LookingforDriver from "../Components/LookingforDriver";
 import WaitForDriver from "../Components/WaitForDriver";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-// import SocketContext from "../context/socketcontext.jsx";
 import { useSelector } from "react-redux";
-import { useContext } from "react";
-// import { sendMessage } from "../Slice/socketSlice";
-import io from "socket.io-client";
+import { useNavigate } from "react-router-dom";
+
 import {
   initializeSocket,
   sendMessage,
   receiveMessage,
 } from "../Slice/socketSlice";
 
-const socket = io(import.meta.env.VITE_BASE_URL);
 const Home = () => {
   const [pickup, setpickup] = useState("");
   const [destination, setDestination] = useState("");
@@ -37,7 +33,10 @@ const Home = () => {
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [ride , setRide] = useState(null)
 
+  const navigate = useNavigate();
+ 
   const dispatch = useDispatch();
 
   const userId = useSelector((state) => state?.user?.user?._id);
@@ -52,7 +51,7 @@ const Home = () => {
     }
   }, [userId, dispatch]);
 
-  // Example of receiving messages
+ 
   useEffect(() => {
     dispatch(receiveMessage("new-ride"));
   }, [dispatch]);
@@ -60,6 +59,27 @@ const Home = () => {
   const submithandler = (e) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+      dispatch(
+        receiveMessage("ride-started", (ride) => {
+          console.log("ride started", ride);
+          setWaitingFOrDriver(false);
+          navigate("/riding", { state: { ride } });
+        })
+      );
+    }, [dispatch]);
+
+    useEffect(() => {
+      dispatch(
+        receiveMessage("ride-confirmed", (ride) => {
+          console.log("ride confirmed ", ride);
+          setWaitingFOrDriver(true);
+          setVehicleFound(false);
+          setRide(ride);
+        })
+      );
+    }, [dispatch]);
 
   const fetchSuggestions = async (query) => {
     try {
@@ -103,6 +123,7 @@ const Home = () => {
   }
 
   async function createRide() {
+    console.log("Authorization", localStorage.getItem("token"));
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/rides/create`,
       {
@@ -111,10 +132,11 @@ const Home = () => {
         vehicleType,
       },
       {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       }
     );
-    console.log("response", response.data);
+   
+    console.log("response for create ride ", response.data);
   }
 
   useGSAP(
@@ -211,6 +233,8 @@ const Home = () => {
     },
     [waitingForDriver]
   );
+
+  
 
   return (
     <div className="h-screen relative overflow-hidden">
@@ -341,7 +365,11 @@ const Home = () => {
         ref={waitingfordriverref}
         className=" absolute bottom-0  w-full bg-white"
       >
-        <WaitForDriver setWaitingFOrDriver={setWaitingFOrDriver} />
+        <WaitForDriver
+        ride = {ride}
+        waitingForDriver={waitingForDriver}
+        setVehicleFound={setVehicleFound}
+         setWaitingFOrDriver={setWaitingFOrDriver} />
       </div>
     </div>
   );

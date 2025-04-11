@@ -24,7 +24,7 @@ const CaptainLogin = () => {
       const data = response?.data;
       console.log("data", data.captain);
       dispatch(setCaptain(data.captain));
-      localStorage.setItem("token", data?.token);
+      localStorage.setItem("captaintoken", data?.token);
       navigate("/captain-home");
     }
     setEmail("");

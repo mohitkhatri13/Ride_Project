@@ -3,14 +3,32 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoLocationSharp } from "react-icons/io5";
 import { RiUserLocationLine } from "react-icons/ri";
 import { FaIndianRupeeSign } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+
 const ConfirmRidePopup = (props) => {
+  const [otp, setotp] = useState("");
+  const navigate = useNavigate();
+  const submithandler =async (e) => {
+    e.preventDefault();
+    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
+      params: {
+          rideId: props.ride._id,
+          otp: otp
+      },
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem('captaintoken')}`
+      }
+  })
+  console.log("response in confirm ride panel", response.data);
+  if (response.status === 200) {
+    props.setConfirmRidepopup(false)
+    props.setRidePopUpPanel(false)
+    navigate('/captain-riding', { state: { ride: props.ride } })
+}
 
-    const [otp , setotp ]   = useState("");
-    const submithandler = (e)=>{
-        e.preventdefault()
-
-    }
+  };
   return (
     <div className="h-screen">
       <div className="flex  flex-col items-center ">
@@ -34,7 +52,11 @@ const ConfirmRidePopup = (props) => {
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s"
               alt=""
             />
-            <h2 className="text-2xl font-medium ">Avneet Kaur</h2>
+            <h2 className="text-2xl font-medium ">
+              {props?.ride?.user?.fullname?.firstname +
+                " " +
+                props?.ride?.user?.fullname?.lastname}
+            </h2>
           </div>
 
           <h2 className="text-xl font-medium">2.2 km</h2>
@@ -47,8 +69,8 @@ const ConfirmRidePopup = (props) => {
               <RiUserLocationLine />
             </div>
             <div className="px-10 font-semibold py-4">
-              <h3>562/11 A </h3>
-              <p>House no 344 Shalimaar bagh New Delhi</p>
+              {/* <h3>562/11 A </h3> */}
+              <p>{props?.ride?.pickup}</p>
             </div>
           </div>
 
@@ -57,8 +79,8 @@ const ConfirmRidePopup = (props) => {
               <IoLocationSharp />
             </div>
             <div className="px-10 font-semibold py-4">
-              <h3>562/11 A </h3>
-              <p>House no 344 Shalimaar bagh New Delhi</p>
+              {/* <h3>562/11 A </h3> */}
+              <p>{props?.ride?.destination}</p>
             </div>
           </div>
 
@@ -68,7 +90,7 @@ const ConfirmRidePopup = (props) => {
             </div>
 
             <div className="px-10 font-semibold py-4">
-              <h3>198</h3>
+              <h3>{props?.ride?.fare}</h3>
               <p>Cash</p>
             </div>
           </div>
@@ -84,19 +106,18 @@ const ConfirmRidePopup = (props) => {
               className="bg-[#eee]  px-12 py-4 text-lg rounded-lg w-[90%] mt-5"
               type="text"
               placeholder="Enter OTP"
-              onChange={(e)=>{
+              onChange={(e) => {
                 setotp(e.target.value);
               }}
-              value ={otp}
+              value={otp}
             ></input>
-            <Link
-              to={"/captainriding"}
-              className="w-[90%] hover:scale-95 my-10 py-4  bg-orange-400 rounded-lg text-xl  text-center  font-bold"
-            >
+            <button 
+           
+            className="w-[90%] hover:scale-95 my-10 py-4  bg-orange-400 rounded-lg text-xl  text-center  font-bold">
               Confirm
-            </Link>
+            </button>
             <button
-              onClick={() => {
+               onClick={() => {
                 props.setConfirmRidepopup(false);
                 props.setRidePopUpPanel(false);
               }}

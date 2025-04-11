@@ -4,8 +4,28 @@ import { IoLocationSharp } from "react-icons/io5";
 import { RiUserLocationLine } from "react-icons/ri";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const FinishRide = (props) => {
+  const navigate = useNavigate()
+    async function endRide() {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`, {
+
+            rideId: props.ride._id
+
+
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('captaintoken')}`
+            }
+        })
+
+        if (response.status === 200) {
+            navigate('/captain-home')
+        }
+
+    }
   return (
     <div className="">
       <div className="flex  flex-col items-center ">
@@ -28,7 +48,7 @@ const FinishRide = (props) => {
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s"
               alt=""
             />
-            <h2 className="text-2xl font-medium ">Avneet Kaur</h2>
+            <h2 className="text-2xl font-medium ">{props?.ride?.user?.fullname?.firstname + " " + props?.ride?.user?.fullname?.lastname}</h2>
           </div>
 
           <h2 className="text-xl font-medium">2.2 km</h2>
@@ -41,8 +61,8 @@ const FinishRide = (props) => {
               <RiUserLocationLine />
             </div>
             <div className="px-10 font-semibold py-4">
-              <h3>562/11 A </h3>
-              <p>House no 344 Shalimaar bagh New Delhi</p>
+              {/* <h3>562/11 A </h3> */}
+              <p>{props?.ride?.pickup}</p>
             </div>
           </div>
 
@@ -51,8 +71,8 @@ const FinishRide = (props) => {
               <IoLocationSharp />
             </div>
             <div className="px-10 font-semibold py-4">
-              <h3>562/11 A </h3>
-              <p>House no 344 Shalimaar bagh New Delhi</p>
+              {/* <h3>562/11 A </h3> */}
+              <p>{props?.ride?.destination}</p>
             </div>
           </div>
 
@@ -62,18 +82,18 @@ const FinishRide = (props) => {
             </div>
 
             <div className="px-10 font-semibold py-4">
-              <h3>198</h3>
+              <h3>{props?.ride?.fare}</h3>
               <p>Cash</p>
             </div>
           </div>
         </div>
         <div className="   w-full p-6 flex  flex-col items-center justify-center ">
-          <Link
-            to={"/captain-home"}
+          <button
+           onClick={endRide}
             className=" w-10/12 hover:scale-95 my-10 py-4  bg-orange-400 rounded-lg text-xl  text-center  font-bold"
           >
             Finish Ride
-          </Link>
+          </button>
           <p className="text-2xl font-bold">Click on Finish Ride if you completed the payment</p>
         </div>
       </div>

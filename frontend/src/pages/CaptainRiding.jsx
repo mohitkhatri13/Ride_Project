@@ -7,9 +7,14 @@ import { Link } from "react-router-dom";
 import { IoIosArrowDown } from "react-icons/io";
 import { useRef } from "react";
 import FinishRide from "../Components/FinishRide";
+import { useLocation } from "react-router-dom";
+
+
 const CaptainRiding = () => {
   const [finishridePanel, setfinishridePanel] = useState(false);
   const finishRideRef = useRef(null);
+  const location = useLocation();
+  const ridedata = location.state?.ride;
   useGSAP(
     function () {
       if (finishridePanel) {
@@ -67,7 +72,9 @@ const CaptainRiding = () => {
         ref={finishRideRef}
         className=" absolute bottom-0 translate-y-full py-6 pt-12 w-full bg-white"
       >
-        <FinishRide setfinishridePanel= {setfinishridePanel} />
+        <FinishRide 
+        ride={ridedata}
+        setfinishridePanel= {setfinishridePanel} />
       </div>
     </div>
   );

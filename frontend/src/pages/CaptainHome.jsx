@@ -10,6 +10,7 @@ import RidePopUs from "../Components/RidePopUs";
 import ConfirmRidePopup from "../Components/ConfirmRidePopup";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import axios from "axios";
 import {
   initializeSocket,
   sendMessage,
@@ -28,6 +29,10 @@ const CaptainHome = () => {
   useEffect(() => {
     dispatch(initializeSocket());
   }, [dispatch]);
+
+  
+  
+
 
   useEffect(() => {
     if (captainId) {
@@ -103,7 +108,17 @@ const CaptainHome = () => {
   );
 
   async function confirmRide(){
-    
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
+
+      rideId: ride._id,
+      captainId: captainId,
+  }, {
+      headers: {
+          Authorization: `Bearer ${localStorage.getItem('captaintoken')}`
+      }
+  })
+    setRidePopUpPanel(false);
+    setConfirmRidepopup(true);
   }
 
   return (
@@ -136,7 +151,7 @@ const CaptainHome = () => {
           setRidePopUpPanel={setRidePopUpPanel}
           setConfirmRidepopup={setConfirmRidepopup}
           ride={ride}
-          confirmride={confirmride}
+          confirmRide={confirmRide}
         />
       </div>
       <div
@@ -144,6 +159,7 @@ const CaptainHome = () => {
         className=" absolute bottom-0 translate-y-full py-6 pt-12 w-full bg-white"
       >
         <ConfirmRidePopup
+            ride = {ride}
           setRidePopUpPanel={setRidePopUpPanel}
           setConfirmRidepopup={setConfirmRidepopup}
         />

@@ -43,7 +43,7 @@ const CaptainSignup = () => {
       const data = response?.data;
       console.log("signupdata", data);
       dispatch(setCaptain(data.captain));
-      localStorage.setItem("token", data?.token);
+      localStorage.setItem("captaintoken", data?.token);
       navigate("/captain-home");
     }
 

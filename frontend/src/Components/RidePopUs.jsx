@@ -22,12 +22,20 @@ const RidePopUs = (props) => {
         </h2>
 
         <div className="flex my-6 items-center justify-between w-[80%] bg-yellow-300 p-2 px-4 rounded-xl">
-            <div className="flex gap-4 items-center ">
-            <img className='h-20 w-20 rounded-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s" alt="" />
-            <h2 className="text-2xl font-medium ">{props?.ride?.user?.fullname?.firstname + " " + props?.ride?.user?.fullname?.lastname}</h2>
-            </div>
-        
-        <h2 className="text-xl font-medium">2.2 km</h2>
+          <div className="flex gap-4 items-center ">
+            <img
+              className="h-20 w-20 rounded-full object-cover"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s"
+              alt=""
+            />
+            <h2 className="text-2xl font-medium ">
+              {props?.ride?.user?.fullname?.firstname +
+                " " +
+                props?.ride?.user?.fullname?.lastname}
+            </h2>
+          </div>
+
+          <h2 className="text-xl font-medium">2.2 km</h2>
         </div>
       </div>
       <div className="flex  flex-col  items-center ">
@@ -63,20 +71,21 @@ const RidePopUs = (props) => {
             </div>
           </div>
         </div>
-        <button 
-        onClick={()=>{
+        <button
+          onClick={() => {
             props.setConfirmRidepopup(true);
-        }}
-        className="w-[80%] hover:scale-95 my-10 py-2 h-15 bg-orange-400 rounded-lg text-xl  font-bold">
+            props.confirmRide()
+          }}
+          className="w-[80%] hover:scale-95 my-10 py-2 h-15 bg-orange-400 rounded-lg text-xl  font-bold"
+        >
           Accept
         </button>
-        <button 
-        onClick={()=>{
+        <button
+          onClick={() => {
             props.setRidePopUpPanel(false);
-            props.confirmRide()
-        }}
-        
-        className="w-[80%] hover:scale-95 mb-10 py-2 h-15 bg-gray-300 rounded-lg text-xl text-gray-700 font-bold">
+          }}
+          className="w-[80%] hover:scale-95 mb-10 py-2 h-15 bg-gray-300 rounded-lg text-xl text-gray-700 font-bold"
+        >
           Ignore
         </button>
       </div>

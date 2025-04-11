@@ -1,13 +1,30 @@
 import React from "react";
 import homeimage from "../assets/homeimage.jpg";
 import carimage from "../assets/carimage.jpeg";
-import { IoIosArrowDown } from "react-icons/io";
 import { IoLocationSharp } from "react-icons/io5";
-import { RiUserLocationLine } from "react-icons/ri";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { IoHomeOutline } from "react-icons/io5"; 
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { receiveMessage } from "../Slice/socketSlice";
 const Riding = () => {  
+ const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const ride = location.state || {};
+   
+
+   useEffect(() => {
+      dispatch(
+        receiveMessage("ride-ended", (data) => {
+          navigate('/home')
+        })
+      );
+    }, [dispatch]);
+
   return (    
     <div className="h-screen  flex flex-col w-full ">
         <Link to={"/home"} className="rounded-full absolute p-2 text-3xl text-white  left-6 top-6"><IoHomeOutline /></Link>
@@ -23,8 +40,8 @@ const Riding = () => {
           <div className="flex items-center justify-around w-full ">
             <img className="h-30 mb-5 " src={carimage} alt="" />
             <div className="text-right">
-              <h2 className="text-xl font-medium">Mohit </h2>
-              <h4 className="text-2xl font-semibold">ABCDEFGH</h4>
+              <h2 className="text-xl font-medium">{ride?.ride?.captain?.fullname?.firstname}</h2>
+              <h4 className="text-2xl font-semibold">{ride?.ride?.captain?.vehicle?.plate}</h4>
               <p className="text-xl text-gray-600">Maruti Suzuki Brezza</p>
             </div>
           </div>
@@ -34,8 +51,8 @@ const Riding = () => {
                 <IoLocationSharp />
               </div>
               <div className="px-10 font-semibold py-4">
-                <h3>562/11 A </h3>
-                <p>House no 344 Shalimaar bagh New Delhi</p>
+                {/* <h3>562/11 A </h3> */}
+                <p>{ride?.ride?.destination}</p>
               </div>
             </div>
 
@@ -45,7 +62,7 @@ const Riding = () => {
               </div>
 
               <div className="px-10 font-semibold py-4">
-                <h3>198</h3>
+                <h3>{ride?.ride?.fare}</h3>
                 <p>Cash</p>
               </div>
             </div>
