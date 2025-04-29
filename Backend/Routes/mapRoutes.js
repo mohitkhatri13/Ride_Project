@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../Middlewares/auth.middlewares');
-const mapController = require('../controllers/map.controller');
+const mapController = require('../Controllers/map.controller');
 const { query } = require('express-validator');
 const mapService = require('../services/maps.services');
 

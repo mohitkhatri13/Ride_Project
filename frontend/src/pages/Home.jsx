@@ -13,12 +13,18 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+// import LiveTracking from "../Components/LiveTracking";
+// import { useRecoilState, useRecoilValue } from "recoil";
+// import { userContextAtom } from "../store/atom/UserContext";
 
 import {
   initializeSocket,
   sendMessage,
   receiveMessage,
 } from "../Slice/socketSlice";
+
+import { setPickup  } from "../Slice/locationSlice";
+import { setDestinations } from "../Slice/locationSlice";  
 
 const Home = () => {
   const [pickup, setpickup] = useState("");
@@ -34,6 +40,7 @@ const Home = () => {
   const [vehicleType, setVehicleType] = useState(null);
   const [loading, setLoading] = useState(false);
   const [ride , setRide] = useState(null)
+  const [captainCoordinates , setCaptainCoordinates ] = useState(null);
 
   const navigate = useNavigate();
  
@@ -137,6 +144,8 @@ const Home = () => {
     );
    
     console.log("response for create ride ", response.data);
+    dispatch(setPickup(response?.data?.pickup))
+    dispatch(setDestinations(response?.data?.destination))
   }
 
   useGSAP(
@@ -248,6 +257,9 @@ const Home = () => {
           alt="home image"
         />
       </div>
+      <div className="flex  items-start w-full md:w-[90%] h-[90vh] ">
+                {/* <LiveTracking captainCoordinates={captainCoordinates} captainLocationName = {"Captain Location"} vehicleType={vehicleType} /> */}
+            </div>
 
       <div className="absolute h-screen bottom-0 w-full flex flex-col justify-end ">
         <div className="h-[30%] bg-white p-5 relative   ">

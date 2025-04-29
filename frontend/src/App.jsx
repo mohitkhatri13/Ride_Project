@@ -15,6 +15,7 @@ import CaptainRiding from "./pages/CaptainRiding.jsx";
 import { initializeSocket } from "./Slice/socketSlice.js";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import LiveTracking from "./Components/LiveTracking.jsx";
 const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,6 +32,7 @@ const App = () => {
         <Route path="/captainlogin" element={<CaptainLogin />}></Route>
         <Route path="/captainsignup" element={<CaptainSignup />}></Route>
         <Route path="/captain-riding" element={<CaptainRiding />}></Route>
+        <Route path="/temp" element ={<LiveTracking/>}></Route>
         <Route
           path="captain-home"
           element={

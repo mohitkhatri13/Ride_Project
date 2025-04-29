@@ -11,6 +11,8 @@ import ConfirmRidePopup from "../Components/ConfirmRidePopup";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
+
+import { setCaptainCoordinates,setPickupCoordinates, setDestinationCoordinates } from "../Slice/locationSlice";
 import {
   initializeSocket,
   sendMessage,
@@ -25,18 +27,12 @@ const CaptainHome = () => {
 
   const dispatch = useDispatch();
   const captainId = useSelector((state) => state.captain.captain._id);
-  console.log("capainId" , captainId)
   useEffect(() => {
     dispatch(initializeSocket());
   }, [dispatch]);
 
-  
-  
-
-
   useEffect(() => {
     if (captainId) {
-      console.log("captainId:", captainId);
       dispatch(sendMessage("join", { userType: "captain", captainId }));
     }
 
@@ -50,12 +46,10 @@ const CaptainHome = () => {
               location: { ltd: latitude, lng: longitude },
             })
           );
+          dispatch(setCaptainCoordinates({ ltd: latitude, lng: longitude }));
         });
       }
     }
-
-    
-    
     const locationInterval = setInterval(updateLocation, 10000);
     updateLocation();
 
@@ -66,8 +60,13 @@ const CaptainHome = () => {
     dispatch(
       receiveMessage("new-ride", (data) => {
         console.log("New Ride Received:", data);
+        dispatch(setPickupCoordinates(data?.pickupCoordinates));       
+        dispatch(setDestinationCoordinates(data?.destinationCoordinates));
+        localStorage.setItem("pickupCoordinates", JSON.stringify(data?.pickupCoordinates));
+        localStorage.setItem("destinationCoordinates", JSON.stringify(data?.destinationCoordinates));
         setRide(data); // Update state with new ride data
         setRidePopUpPanel(true); // Show ride popup
+       
       })
     );
   }, [dispatch]);
@@ -109,7 +108,6 @@ const CaptainHome = () => {
 
   async function confirmRide(){
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
-
       rideId: ride._id,
       captainId: captainId,
   }, {
@@ -119,6 +117,8 @@ const CaptainHome = () => {
   })
     setRidePopUpPanel(false);
     setConfirmRidepopup(true);
+
+    // console.log("Ride confirmed: this is important data", response.data);
   }
 
   return (

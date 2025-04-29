@@ -45,11 +45,15 @@ module.exports.createRide = async (req, res) => {
         console.log("ride", ride);
          res.status(201).json(ride);
          const pickupCoordinates = await mapService.getAddressCoordinate(pickup);
+         const destinationCoordinates = await mapService.getAddressCoordinate(destination);
          console.log("pickupCoordinates", pickupCoordinates);
 
         const captainradius = await mapService.getCaptainsInTheRadius(pickupCoordinates.ltd, pickupCoordinates.lng, 500);
         ride.otp = "";
-        const rideWithUser = await rideModel.findOne({ _id: ride._id }).populate('user');
+        const rideWithUserDoc = await rideModel.findOne({ _id: ride._id }).populate('user');
+        const rideWithUser = rideWithUserDoc.toObject();
+        rideWithUser.pickupCoordinates = pickupCoordinates;
+        rideWithUser.destinationCoordinates = destinationCoordinates;
         captainradius.map(captain =>{
              sendMessageToSocketId(captain.socketId,{
                 event: 'new-ride',
