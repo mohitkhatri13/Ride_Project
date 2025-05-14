@@ -1,20 +1,49 @@
-
-import React from 'react'
-import { Link  , NavLink} from 'react-router-dom'
-
+import React from "react";
+import { NavLink } from "react-router-dom";
+import image from "../assets/startimage.gif"
+import Navbar from "../Components/Navbar";
 const Start = () => {
   return (
-    <div>
-      <div className='bg-cover bg-center bg-[url(https://images.unsplash.com/photo-1619059558110-c45be64b73ae?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] h-screen pt-8 flex justify-between flex-col w-full'>
-        <img className='w-16 ml-8' src="https://cdn-assets-eu.frontify.com/s3/frontify-enterprise-files-eu/eyJwYXRoIjoid2VhcmVcL2ZpbGVcLzhGbTh4cU5SZGZUVjUxYVh3bnEyLnN2ZyJ9:weare:F1cOF9Bps96cMy7r9Y2d7affBYsDeiDoIHfqZrbcxAw?width=1200&height=417" alt="" />
-        <div className='bg-white pb-8 py-4 px-4'>
-          <h2 className='text-[30px] font-semibold'>Get Started with Airavat</h2>
-          
-          <NavLink to='/userlogin' className='flex items-center justify-center w-full bg-black text-white py-3 rounded-lg mt-5'>Continue</NavLink>
+    <div className="h-screen w-full flex-col bg-black flex items-center justify-center">
+       <div className="w-[100%] mt-[-20px]"> < Navbar /></div>
+      
+      <div className="flex  justify-center items-center  flex-col   w-[90%] h-[90%] rounded-xl overflow-hidden shadow-lg ">
+        {/* <div className="text-white text-4xl font-bold  bg-black bg-opacity-40 mt-20 select-none">
+          Airavata
+        </div> */}
+        <div className=" w-full flex   gap-x-10 h-full mt-30 ">
+          <div  
+         
+          className=" rounded-md bg-center bg-cover p-10 flex flex-col pt-25 items-center w-[50%]">
+            <h2 className=" select-none text-3xl md:text-4xl font-bold mb-4 text-white">
+              Get Started with{" "}
+              <span className="bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                Airavata
+              </span>
+            </h2>
+
+            <p className="text-white select-none text-base mb-6 shadow-2xl shadow-black">
+              Seamless ride experience begins here. Login or sign up to
+              continue.
+            </p>
+            <NavLink
+              to="/userlogin"
+              className="select-none w-full text-center bg-white  text-black font-bold py-3 rounded-lg text-lg transition-all duration-300"
+            >
+              Continue as User
+            </NavLink>
+          </div>
+
+          <img 
+  className="bg-cover rounded-md bg-center w-[40%] h-110 shadow-2xl shadow-white"
+  src={image} alt="" 
+/>
+
         </div>
+        
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Start
+export default Start;
