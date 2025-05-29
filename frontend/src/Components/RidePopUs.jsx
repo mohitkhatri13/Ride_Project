@@ -7,8 +7,8 @@ import { FaIndianRupeeSign } from "react-icons/fa6";
 
 const RidePopUs = (props) => {
   return (
-    <div>
-      <div className="flex flex-col items-center ">
+    <div className="border h-[95vh]">
+      <div className="  flex flex-col items-center ">
         <h4
           onClick={() => {
             props.setRidePopUpPanel(false);
@@ -17,7 +17,7 @@ const RidePopUs = (props) => {
         >
           <IoIosArrowDown />
         </h4>
-        <h2 className="font-bold text-4xl text-center p-4 mb-4">
+        <h2 className="font-bold text-3xl text-center py-2 ">
           New Ride Avaiable!
         </h2>
 
@@ -44,17 +44,17 @@ const RidePopUs = (props) => {
             <div className="text-3xl">
               <RiUserLocationLine />
             </div>
-            <div className="px-10 font-semibold py-4">
+            <div className="px-10 text-lg font-semibold py-2">
               <h3>562/11 A </h3>
               <p>{props?.ride?.pickup}</p>
             </div>
           </div>
 
-          <div className="w-full  border-b-2 flex items-center px-5">
+          <div className="w-full  border-b-2 flex items-center px-4">
             <div className="text-3xl">
               <IoLocationSharp />
             </div>
-            <div className="px-10 font-semibold py-4">
+            <div className="px-10 text-lg font-semibold py-4">
               <h3>562/11 A </h3>
               <p>{props?.ride?.destination}</p>
             </div>
@@ -65,7 +65,7 @@ const RidePopUs = (props) => {
               <FaIndianRupeeSign />
             </div>
 
-            <div className="px-10 font-semibold py-4">
+            <div className="px-10 text-lg font-semibold pt-4">
               <h3>{props?.ride?.fare}</h3>
               <p>Cash</p>
             </div>
@@ -74,9 +74,9 @@ const RidePopUs = (props) => {
         <button
           onClick={() => {
             props.setConfirmRidepopup(true);
-            props.confirmRide()
+            props.confirmRide();
           }}
-          className="w-[80%] hover:scale-95 my-10 py-2 h-15 bg-orange-400 rounded-lg text-xl  font-bold"
+          className="w-[60%] hover:scale-95 my-5 py-2 h-10 bg-orange-400 rounded-lg text-lg  font-bold"
         >
           Accept
         </button>
@@ -84,7 +84,7 @@ const RidePopUs = (props) => {
           onClick={() => {
             props.setRidePopUpPanel(false);
           }}
-          className="w-[80%] hover:scale-95 mb-10 py-2 h-15 bg-gray-300 rounded-lg text-xl text-gray-700 font-bold"
+          className="w-[60%] hover:scale-95 mb-10 py-2 h-10 bg-gray-300 rounded-lg text-lg text-gray-700 font-bold"
         >
           Ignore
         </button>

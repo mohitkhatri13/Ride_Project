@@ -13,6 +13,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import image from "../assets/startimage.gif";
 // import LiveTracking from "../Components/LiveTracking";
 // import { useRecoilState, useRecoilValue } from "recoil";
 // import { userContextAtom } from "../store/atom/UserContext";
@@ -153,7 +154,7 @@ const Home = () => {
       if (panelopen) {
         gsap.to(panelRef.current, {
           height: "75%",
-          padding: "20px",
+          // padding: "150px",
           overflow: "visible",
           duration: 0.7,
         });
@@ -246,144 +247,158 @@ const Home = () => {
   
 
   return (
-    <div className="h-screen relative overflow-hidden">
-      <h2 className="text-3xl absolute text-white left-4 top-4 font-bold mb-10 ">
-        Airvata
-      </h2>
-      <div>
-        <img
-          className="h-screen w-screen object-fill"
-          src={homeimage}
-          alt="home image"
-        />
-      </div>
-      <div className="flex  items-start w-full md:w-[90%] h-[90vh] ">
-                {/* <LiveTracking captainCoordinates={captainCoordinates} captainLocationName = {"Captain Location"} vehicleType={vehicleType} /> */}
-            </div>
+  <div className="h-screen w-screen pb-10   bg-black flex items-center justify-center ">
+  {/* Mobile-style wrapper */}
+    <h2 className="text-3xl absolute top-4 left-5  text-white font-bold mb-10">
+      Airavata
+    </h2>
 
-      <div className="absolute h-screen bottom-0 w-full flex flex-col justify-end ">
-        <div className="h-[30%] bg-white p-5 relative   ">
-          <h4
-            ref={panelcloseref}
-            onClick={() => {
-              setPanelopen(false);
-            }}
-            className="text-4xl font-semibold absolute right-6 top-3 opacity-0 hover:scale-x-80 duration-300"
-          >
-            <IoIosArrowDown />
-          </h4>
-          <h4 className="font-bold text-4xl mb-10 ">Find a trip</h4>
-          <form
-            onSubmit={(e) => {
-              submithandler(e);
-            }}
-            className="mt-5 mb-5"
-          >
-            <div className="line absolute h-25 w-1 top-[40%] left-10 bg-gray-700 rounded-full"></div>
-            <input
-              onClick={() => {
-                setPanelopen(true);
-                setActiveField("pickup");
-              }}
-              value={pickup}
-              onChange={(e) => {
-                setpickup(e.target.value);
-                fetchSuggestions(e.target.value);
-              }}
-              className="bg-[#eee] px-12  py-4 text-lg rounded-lg w-full"
-              type="text"
-              placeholder="Add a pick up Location"
-            ></input>
-            <input
-              onClick={() => {
-                setPanelopen(true);
-                setActiveField("destination");
-              }}
-              value={destination}
-              onChange={(e) => {
-                setDestination(e.target.value);
-                fetchSuggestions(e.target.value);
-              }}
-              className="bg-[#eee] px-12 py-4 text-lg rounded-lg w-full mt-5"
-              type="text"
-              placeholder="Select your Destination"
-            ></input>
-          </form>
-          <button
-            onClick={() => {
-              findTrip();
-            }}
-            className="border p-2 bg-black text-white font-bold rounded-md w-[8em]"
-          >
-            Find Trip
-          </button>
-        </div>
+  <div className="relative h-full w-[25em] max-w-full overflow-hidden bg-black">
+    
+    {/* App Title */}
+  
+    {/* Background Image */}
+    <div>
+      <img
+        className="rounded-md  w-full object-fill mt-20"
+        src={image}
+        alt="home image"
+      />
+    </div>
 
-        <div ref={panelRef} className=" bg-white p-x-10  ">
-          <LocationSearchPanel
-            setPanelopen={setPanelopen}
-            setVehiclePanel={setVehiclePanel}
-            suggestions={suggestions}
-            activeField={activeField}
-            setPickup={setpickup}
-            setDestination={setDestination}
-            fetchSuggestions={fetchSuggestions}
+    {/* Optional Live Tracking (left unchanged) */}
+    <div className="flex items-start w-full h-[90vh]">
+      {/* <LiveTracking /> */}
+    </div>
+
+    {/* Bottom Panel Container */}
+    <div className="absolute  bottom-0 w-full flex flex-col ">
+      
+      {/* Trip Panel */}
+      <div className="h-[30%] bg-white p-5 relative">
+        <h4
+          ref={panelcloseref}
+          onClick={() => setPanelopen(false)}
+          className="text-4xl font-semibold absolute right-6 top-3 opacity-0 hover:scale-x-80 duration-300"
+        >
+          <IoIosArrowDown />
+        </h4>
+        <h4 className="font-bold text-4xl mb-10">Find a trip</h4>
+        <form onSubmit={submithandler} className="mt-5 mb-5">
+          <div className="line absolute h-25 w-1 top-[40%] left-10 bg-gray-700 rounded-full"></div>
+          <input
+            onClick={() => {
+              setPanelopen(true);
+              setActiveField("pickup");
+            }}
+            value={pickup}
+            onChange={(e) => {
+              setpickup(e.target.value);
+              fetchSuggestions(e.target.value);
+            }}
+            className="bg-[#eee] px-12 py-4 text-lg rounded-lg w-full"
+            type="text"
+            placeholder="Add a pick up Location"
           />
-        </div>
+          <input
+            onClick={() => {
+              setPanelopen(true);
+              setActiveField("destination");
+            }}
+            value={destination}
+            onChange={(e) => {
+              setDestination(e.target.value);
+              fetchSuggestions(e.target.value);
+            }}
+            className="bg-[#eee] px-12 py-4 text-lg rounded-lg w-full mt-5"
+            type="text"
+            placeholder="Select your Destination"
+          />
+        </form>
+        <button
+          onClick={findTrip}
+          className="border p-2 bg-black text-white font-bold rounded-md w-[8em]"
+        >
+          Find Trip
+        </button>
       </div>
 
-      <div
-        ref={vehiclepanelref}
-        className=" absolute bottom-0 translate-y-full py-6 pt-12 w-full bg-white"
-      >
-        <VehiclePanel
-          fare={fare}
-          setVehicleType={setVehicleType}
-          setConfirmRidePanel={setConfirmRidePanel}
+      {/* Location Search Panel */}
+      <div ref={panelRef} className="bg-white px-5 py-6 border w-[25em] ">
+        <LocationSearchPanel
+          setPanelopen={setPanelopen}
           setVehiclePanel={setVehiclePanel}
+          suggestions={suggestions}
+          activeField={activeField}
+          setPickup={setpickup}
+          setDestination={setDestination}
+          fetchSuggestions={fetchSuggestions}
         />
-      </div>
-
-      <div
-        ref={confirmridepanelref}
-        className=" absolute bottom-0 translate-y-full  w-full bg-white"
-      >
-        <ConfirmRide
-          createRide={createRide}
-          setConfirmRidePanel={setConfirmRidePanel}
-          setVehicleFound={setVehicleFound}
-          pickup={pickup}
-          destination={destination}
-          fare={fare}
-          vehicleType={vehicleType}
-        />
-      </div>
-
-      <div
-        ref={vehiclefoundref}
-        className=" absolute bottom-0 translate-y-full  w-full bg-white"
-      >
-        <LookingforDriver
-          pickup={pickup}
-          destination={destination}
-          createRide={createRide}
-          fare={fare}
-          vehicleType={vehicleType}
-          setVehicleFound={setVehicleFound}
-        />
-      </div>
-
-      <div
-        ref={waitingfordriverref}
-        className=" absolute bottom-0  w-full bg-white"
-      >
-        <WaitForDriver
-        ride = {ride}
-        waitingForDriver={waitingForDriver}
-        setVehicleFound={setVehicleFound}
-         setWaitingFOrDriver={setWaitingFOrDriver} />
       </div>
     </div>
+
+    {/* Vehicle Panel */}
+    <div
+      ref={vehiclepanelref}
+      className="absolute bottom-0 translate-y-full py-6 pt-12 w-full bg-white"
+    >
+      <VehiclePanel
+        fare={fare}
+        setVehicleType={setVehicleType}
+        setConfirmRidePanel={setConfirmRidePanel}
+        setVehiclePanel={setVehiclePanel}
+      />
+    </div>
+
+    {/* Confirm Ride Panel */}
+    <div
+      ref={confirmridepanelref}
+      className="absolute bottom-0 translate-y-full w-full bg-white"
+    >
+      <ConfirmRide
+        createRide={createRide}
+        setConfirmRidePanel={setConfirmRidePanel}
+        setVehicleFound={setVehicleFound}
+        setVehiclePanel={setVehiclePanel}
+        pickup={pickup}
+        destination={destination}
+        fare={fare}
+        vehicleType={vehicleType}
+      />
+    </div>
+
+    {/* Looking for Driver Panel */}
+    <div
+      ref={vehiclefoundref}
+      className="absolute bottom-0 translate-y-full w-full bg-white"
+    >
+      <LookingforDriver
+        pickup={pickup}
+        destination={destination}
+        createRide={createRide}
+        fare={fare}
+        vehicleType={vehicleType}
+        setVehicleFound={setVehicleFound}
+      />
+    </div>
+
+    {/* Wait for Driver Panel */}
+    <div
+      ref={waitingfordriverref}
+      className="absolute bottom-0 w-full bg-white"
+    >
+      <WaitForDriver
+        ride={ride}
+        waitingForDriver={waitingForDriver}
+        setVehicleFound={setVehicleFound}
+        setWaitingFOrDriver={setWaitingFOrDriver}
+      />
+    </div>
+  </div>
+</div>
+
+
+
   );
 };
 

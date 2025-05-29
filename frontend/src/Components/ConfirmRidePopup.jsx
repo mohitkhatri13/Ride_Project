@@ -6,43 +6,43 @@ import { FaIndianRupeeSign } from "react-icons/fa6";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
-
 const ConfirmRidePopup = (props) => {
   const [otp, setotp] = useState("");
   const navigate = useNavigate();
-  const submithandler =async (e) => {
+  const submithandler = async (e) => {
     e.preventDefault();
-    const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
-      params: {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/rides/start-ride`,
+      {
+        params: {
           rideId: props.ride._id,
-          otp: otp
-      },
-      headers: {
-          Authorization: `Bearer ${localStorage.getItem('captaintoken')}`
+          otp: otp,
+        },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("captaintoken")}`,
+        },
       }
-  })
-  console.log("response in confirm ride panel", response.data);
-  if (response.status === 200) {
-    props.setConfirmRidepopup(false)
-    props.setRidePopUpPanel(false)
-    navigate('/captain-riding', { state: { ride: props.ride } })
-}
-
+    );
+    console.log("response in confirm ride panel", response.data);
+    if (response.status === 200) {
+      props.setConfirmRidepopup(false);
+      props.setRidePopUpPanel(false);
+      navigate("/captain-riding", { state: { ride: props.ride } });
+    }
   };
   return (
-    <div className="h-screen">
+    <div className="h-[95vh] bg-amber-50">
       <div className="flex  flex-col items-center ">
         <h4
           onClick={() => {
             props.setRidePopUpPanel(false);
             props.setConfirmRidepopup(false);
           }}
-          className="text-4xl px-4 mt-10 font-semibold text-center  hover:scale-x-80 duration-300"
+          className="text-3xl px-4 mt-2 font-semibold text-center  hover:scale-x-80 duration-300"
         >
           <IoIosArrowDown />
         </h4>
-        <h2 className="font-bold text-4xl text-center p-4 mb-4">
+        <h2 className="font-bold text-3xl text-center pt-2 ">
           Confirm this ride to start
         </h2>
 
@@ -69,7 +69,7 @@ const ConfirmRidePopup = (props) => {
             <div className="text-3xl">
               <RiUserLocationLine />
             </div>
-            <div className="px-10 font-semibold py-4">
+            <div className="px-10 text-lg font-semibold py-4">
               {/* <h3>562/11 A </h3> */}
               <p>{props?.ride?.pickup}</p>
             </div>
@@ -79,7 +79,7 @@ const ConfirmRidePopup = (props) => {
             <div className="text-3xl">
               <IoLocationSharp />
             </div>
-            <div className="px-10 font-semibold py-4">
+            <div className="px-10 text-lg font-semibold py-4">
               {/* <h3>562/11 A </h3> */}
               <p>{props?.ride?.destination}</p>
             </div>
@@ -90,13 +90,13 @@ const ConfirmRidePopup = (props) => {
               <FaIndianRupeeSign />
             </div>
 
-            <div className="px-10 font-semibold py-4">
+            <div className="px-10 text-lg font-semibold mt-3">
               <h3>{props?.ride?.fare}</h3>
               <p>Cash</p>
             </div>
           </div>
         </div>
-        <div className="  w-full p-6 ">
+        <div className="  w-full px-6 mt-4 ">
           <form
             className="flex flex-col items-center"
             onSubmit={(e) => {
@@ -104,7 +104,7 @@ const ConfirmRidePopup = (props) => {
             }}
           >
             <input
-              className="bg-[#eee]  px-12 py-4 text-lg rounded-lg w-[90%] mt-5"
+              className="bg-[#eee]  px-10 py-2 text-lg rounded-lg w-[80%] mt-2"
               type="text"
               placeholder="Enter OTP"
               onChange={(e) => {
@@ -112,17 +112,15 @@ const ConfirmRidePopup = (props) => {
               }}
               value={otp}
             ></input>
-            <button 
-           
-            className="w-[90%] hover:scale-95 my-10 py-4  bg-orange-400 rounded-lg text-xl  text-center  font-bold">
+            <button className="w-[80%] hover:scale-95 mt-5 py-2  bg-orange-400 rounded-lg text-lg  text-center  font-bold">
               Confirm
             </button>
             <button
-               onClick={() => {
+              onClick={() => {
                 props.setConfirmRidepopup(false);
                 props.setRidePopUpPanel(false);
               }}
-              className="w-[90%]  hover:scale-95 mb-10 py-2 h-15 bg-red-600 rounded-lg text-xl text-gray-700 font-bold"
+              className="w-[80%]  hover:scale-95 mb-10 py-2 mt-4  bg-red-600 rounded-lg text-lg text-gray-700 font-bold"
             >
               Cancel
             </button>

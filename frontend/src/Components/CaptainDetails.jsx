@@ -5,9 +5,7 @@ import { LuNotebook } from "react-icons/lu";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 const CaptainDetails = () => {
-
-  const captain = useSelector((state)=>state.captain.captain)
-
+  const captain = useSelector((state) => state.captain.captain);
 
   return (
     <div>

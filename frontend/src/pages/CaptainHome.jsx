@@ -12,7 +12,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import axios from "axios";
 
-import { setCaptainCoordinates,setPickupCoordinates, setDestinationCoordinates } from "../Slice/locationSlice";
+import {
+  setCaptainCoordinates,
+  setPickupCoordinates,
+  setDestinationCoordinates,
+} from "../Slice/locationSlice";
 import {
   initializeSocket,
   sendMessage,
@@ -21,7 +25,7 @@ import {
 const CaptainHome = () => {
   const [ridePopUpPanel, setRidePopUpPanel] = useState(false);
   const [confirmride, setConfirmRidepopup] = useState(false);
-  const[ride , setRide] = useState(null)
+  const [ride, setRide] = useState(null);
   const ridepopupref = useRef(null);
   const confirmridepopupref = useRef(null);
 
@@ -36,8 +40,8 @@ const CaptainHome = () => {
       dispatch(sendMessage("join", { userType: "captain", captainId }));
     }
 
-    const updateLocation = ()=>{
-      if(navigator.geolocation && captainId){
+    const updateLocation = () => {
+      if (navigator.geolocation && captainId) {
         navigator.geolocation.getCurrentPosition((position) => {
           const { latitude, longitude } = position.coords;
           dispatch(
@@ -49,7 +53,7 @@ const CaptainHome = () => {
           dispatch(setCaptainCoordinates({ ltd: latitude, lng: longitude }));
         });
       }
-    }
+    };
     const locationInterval = setInterval(updateLocation, 10000);
     updateLocation();
 
@@ -60,17 +64,21 @@ const CaptainHome = () => {
     dispatch(
       receiveMessage("new-ride", (data) => {
         console.log("New Ride Received:", data);
-        dispatch(setPickupCoordinates(data?.pickupCoordinates));       
+        dispatch(setPickupCoordinates(data?.pickupCoordinates));
         dispatch(setDestinationCoordinates(data?.destinationCoordinates));
-        localStorage.setItem("pickupCoordinates", JSON.stringify(data?.pickupCoordinates));
-        localStorage.setItem("destinationCoordinates", JSON.stringify(data?.destinationCoordinates));
+        localStorage.setItem(
+          "pickupCoordinates",
+          JSON.stringify(data?.pickupCoordinates)
+        );
+        localStorage.setItem(
+          "destinationCoordinates",
+          JSON.stringify(data?.destinationCoordinates)
+        );
         setRide(data); // Update state with new ride data
         setRidePopUpPanel(true); // Show ride popup
-       
       })
     );
   }, [dispatch]);
-  
 
   useGSAP(
     function () {
@@ -106,15 +114,19 @@ const CaptainHome = () => {
     [confirmride]
   );
 
-  async function confirmRide(){
-    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
-      rideId: ride._id,
-      captainId: captainId,
-  }, {
-      headers: {
-          Authorization: `Bearer ${localStorage.getItem('captaintoken')}`
+  async function confirmRide() {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
+      {
+        rideId: ride._id,
+        captainId: captainId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("captaintoken")}`,
+        },
       }
-  })
+    );
     setRidePopUpPanel(false);
     setConfirmRidepopup(true);
 
@@ -122,9 +134,10 @@ const CaptainHome = () => {
   }
 
   return (
-    <div className=" relative overflow-hidden  h-screen border  flex flex-col w-full items-center ">
+    <div className="w-full h-screen  flex items-center justify-center ">
+    <div className=" relative overflow-hidden  h-screen   flex flex-col w-[24em] items-center ">
       <div className=" fixed   w-screen flex px-4 py-2 items-center justify-between">
-        <h2 className="text-3xl  text-white  font-bold  ">Airvata</h2>
+        <h2 className="text-3xl  text-white  font-bold  ">Airavata</h2>
         <Link
           to={"/captain-home"}
           className="rounded-full  p-2 text-3xl text-white "
@@ -133,19 +146,19 @@ const CaptainHome = () => {
         </Link>
       </div>
 
-      <div className="h-[50%]">
+      <div className="h-[50%] mt-10">
         <img
-          className="h-full w-screen object-fill"
+          className="h-full  w-screen object-fill"
           src={homeimage}
           alt="home image"
         />
       </div>
-      <div className=" w-[80%] mt-20">
+      <div className=" w-[80%]  mt-10">
         <CaptainDetails />
       </div>
       <div
         ref={ridepopupref}
-        className=" absolute bottom-0 translate-y-full py-6 pt-12 w-full bg-white"
+        className=" absolute bottom-0 translate-y-full  w-full bg-white"
       >
         <RidePopUs
           setRidePopUpPanel={setRidePopUpPanel}
@@ -159,11 +172,12 @@ const CaptainHome = () => {
         className=" absolute bottom-0 translate-y-full py-6 pt-12 w-full bg-white"
       >
         <ConfirmRidePopup
-            ride = {ride}
+          ride={ride}
           setRidePopUpPanel={setRidePopUpPanel}
           setConfirmRidepopup={setConfirmRidepopup}
         />
       </div>
+    </div>
     </div>
   );
 };

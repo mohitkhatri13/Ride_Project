@@ -11,7 +11,9 @@ const Navbar = () => {
       <div className="flex justify-around items-center py-3  mx-auto">
         <Link to="/" className="flex justify-center items-center">
           {/* <img className="h-11" src={image1} alt="app__logo" /> */}
-          <p className=" text-2xl text-white font-bold">Airawat</p>
+          <NavLink
+           to="/"
+           className=" text-2xl text-white font-bold">Airawata</NavLink>
         </Link>
 
         <div className=" text-white font-semibold hidden  md:flex gap-x-8 items-center justify-center">

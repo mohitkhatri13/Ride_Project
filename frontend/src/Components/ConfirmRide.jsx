@@ -6,7 +6,7 @@ import { RiUserLocationLine } from "react-icons/ri";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 const ConfirmRide = (props) => {
   return (
-    <div>
+    <div  >
       <div className="flex flex-col items-center ">
         <h4
           onClick={() => {
@@ -16,7 +16,7 @@ const ConfirmRide = (props) => {
         >
           <IoIosArrowDown />
         </h4>
-        <h2 className="font-bold text-4xl text-center p-4 mb-4">
+        <h2 className="font-bold text-3xl text-center p-4 mb-4">
           Confirm Your Ride
         </h2>
       </div>
@@ -27,7 +27,7 @@ const ConfirmRide = (props) => {
             <div className="text-3xl">
               <RiUserLocationLine />
             </div>
-            <div className="px-10 font-semibold py-4">
+            <div className="px-10 text-sm font-semibold py-4">
               <h3>562/11 A </h3>
               <p>{props.pickup}</p>
             </div>
@@ -37,7 +37,7 @@ const ConfirmRide = (props) => {
             <div className="text-3xl">
               <IoLocationSharp />
             </div>
-            <div className="px-10 font-semibold py-4">
+            <div className="px-10 text-sm font-semibold py-4">
               <h3>562/11 A </h3>
               <p>{props.destination}</p>
             </div>
@@ -48,7 +48,7 @@ const ConfirmRide = (props) => {
               <FaIndianRupeeSign />
             </div>
 
-            <div className="px-10 font-semibold py-4">
+            <div className="px-10 text-sm font-semibold py-4">
               <h3>Rs {props.fare[props.vehicleType]}</h3>
               <p>Cash</p>
             </div>
@@ -58,6 +58,7 @@ const ConfirmRide = (props) => {
           onClick={() => {
             props.setVehicleFound(true);
             props.setConfirmRidePanel(false);
+            props.setVehiclePanel(false);
             props.createRide();
           }}
           className="w-[80%] hover:scale-95 my-10 py-2 h-15 bg-gray-300 rounded-lg text-xl  font-bold"

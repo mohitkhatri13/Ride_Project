@@ -6,7 +6,7 @@ import { RiUserLocationLine } from "react-icons/ri";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 const LookingforDriver = (props) => {
   return (
-    <div>
+    <div >
           <div className="flex flex-col items-center ">
             <h4
               onClick={() => {
@@ -16,7 +16,7 @@ const LookingforDriver = (props) => {
             >
               <IoIosArrowDown />
             </h4>
-            <h2 className="font-bold text-4xl text-center p-4 mb-4">
+            <h2 className="font-bold text-3xl text-center p-4 mb-4">
               Looking for a Driver
             </h2>
           </div>
@@ -25,7 +25,7 @@ const LookingforDriver = (props) => {
             <div className="w-[90%] text-xl">
               <div className="w-full border-b-2 flex items-center px-5">
               <div className="text-3xl"><RiUserLocationLine /></div>  
-                <div className="px-10 font-semibold py-4">
+                <div className="px-10 text-lg  font-semibold py-4">
                   {/* <h3>562/11 A </h3> */}
                   <p>{props.pickup}</p>
                 </div>
@@ -33,7 +33,7 @@ const LookingforDriver = (props) => {
               
               <div className="w-full  border-b-2 flex items-center px-5">
               <div className="text-3xl"><IoLocationSharp /></div>  
-                <div className="px-10 font-semibold py-4">
+                <div className="px-10 text-lg font-semibold py-4">
                   <h3>562/11 A </h3>
                   <p>{props.destination}</p>
                 </div>
