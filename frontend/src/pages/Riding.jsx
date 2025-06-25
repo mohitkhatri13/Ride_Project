@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { receiveMessage } from "../Slice/socketSlice";
-
+import LiveTracking from "../Components/LiveTracking";
 
 const Riding = () => {
   const navigate = useNavigate();
@@ -36,12 +36,14 @@ const Riding = () => {
         <IoHomeOutline />
       </Link>
       <div className="h-[50%]">
-        <img
+        {/* <img
           className="h-full mt-5 w-screen object-fill"
           src={homeimage}
           alt="home image"
-        />
+        /> */}
+        <LiveTracking/>
       </div>
+        
       <div className="h-1/2  flex flex-col items-center">
         <div className="flex flex-col justify-center items-center p-4">
           <div className="flex items-center justify-around w-full ">

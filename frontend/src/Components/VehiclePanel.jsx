@@ -39,7 +39,10 @@ const VehiclePanel = (props) => {
             Affordable, Compact rides
           </p>
         </div>
-        <h2 className="text-xl font-bold">Rs. {props.fare.car}</h2>
+        <h2 className="text-xl font-bold">
+  {props.fare.car === null || props.fare.car === undefined ? "Load..." : `Rs. ${props.fare.car}`}
+</h2>
+
       </div>
       <div
         onClick={() => {
@@ -62,7 +65,9 @@ const VehiclePanel = (props) => {
             Affordable, motorcycles rides
           </p>
         </div>
-        <h2 className="text-xl font-bold">Rs. {props.fare.moto}</h2>
+        <h2 className="text-xl font-bold">
+  {props.fare.moto === null || props.fare.moto === undefined ? "Load..." : `Rs. ${props.fare.moto}`}
+</h2>
       </div>
       <div
         onClick={() => {
@@ -85,7 +90,9 @@ const VehiclePanel = (props) => {
             Affordable, Auto rides
           </p>
         </div>
-        <h2 className="text-xl font-bold">Rs. {props.fare.auto}</h2>
+        <h2 className="text-xl font-bold">
+  {props.fare.auto === null || props.fare.auto === undefined ? "Load..." : `Rs. ${props.fare.auto}`}
+</h2>
       </div>
     </div>
   );

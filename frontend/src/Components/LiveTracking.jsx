@@ -52,21 +52,23 @@ const LiveTracking = () => {
 
   if (!pickupCoordinates || !destinationCoordinates) return <div>Loading map...</div>;
 
-  // Icons
-  const CAR_IMG = "https://cdn-icons-png.flaticon.com/512/743/743007.png";
+  // Icons 
+  // const CAR_IMG = "https://www.flaticon.com/free-icon/car_89102";
+  const CAR_IMG = "https://cdn-icons-png.flaticon.com/512/744/744465.png";
+
   const CaptainIcon = new L.Icon({
     iconUrl: CAR_IMG,
-    iconSize: [50, 50],
-    iconAnchor: [25, 50],
-    popupAnchor: [0, -50],
+    iconSize: [20, 20],
+    iconAnchor: [10, 10],
+    popupAnchor: [0, 0],
   });
 
   const pickupIcon = new L.DivIcon({
     html: `<div style="width: 20px; height: 20px; background-color: black; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
       <div style="width: 5px; height: 5px; background-color: white; border-radius: 100%;"></div>
     </div>`,
-    iconSize: [10, 10],
-    iconAnchor: [15, 15],
+    iconSize: [0, 10],
+    iconAnchor: [5, 5],
   });
 
   const destinationIcon = new L.DivIcon({
@@ -113,7 +115,7 @@ const LiveTracking = () => {
 
       const captainToPickup = L.Routing.control({
         waypoints: [
-          L.latLng(captainCoordinates.lat, captainCoordinates.lng),
+          L.latLng(pickupCoordinates.lat-0.1, pickupCoordinates.lng-0.1),
           L.latLng(pickupCoordinates.lat, pickupCoordinates.lng),
         ],
         createMarker: () => null,
@@ -151,12 +153,15 @@ const LiveTracking = () => {
     return null;
   };
 
+
+ 
+
   return (
     <div className="h-[100%] w-[100%]">
       <MapContainer
         center={[pickupCoordinates.lat, pickupCoordinates.lng]}
         zoom={13}
-        style={{ height: '100vh', width: '100%' }}
+        style={{ height: '50vh', width: '100%' }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -166,16 +171,19 @@ const LiveTracking = () => {
         <ZoomToLocations />
         <PopupMarker
           position={[pickupCoordinates.lat, pickupCoordinates.lng]}
+          // position={[27.93, 76.85]}
           icon={pickupIcon}
           location={pickup || "Pickup Location"}
         />
         <PopupMarker
           position={[destinationCoordinates.lat, destinationCoordinates.lng]}
+          
           icon={destinationIcon}
           location={destination || "Destination Location"}
         />
         <PopupMarker
-          position={[captainCoordinates.lat, captainCoordinates.lng]}
+           position={[pickupCoordinates.lat-0.1, pickupCoordinates.lng-0.1]}
+          // position={[27.95, 76.88]}
           icon={CaptainIcon}
           location="Captain"
         />
@@ -185,3 +193,4 @@ const LiveTracking = () => {
 };
 
 export default LiveTracking;
+
