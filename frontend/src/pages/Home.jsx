@@ -14,9 +14,6 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import image from "../assets/startimage.gif";
-import LiveTracking from "../Components/LiveTracking";
-// import { useRecoilState, useRecoilValue } from "recoil";
-// import { userContextAtom } from "../store/atom/UserContext";
 
 import {
   initializeSocket,
